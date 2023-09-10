@@ -6,6 +6,8 @@ from adafruit_midi.note_off import NoteOff
 from adafruit_midi.note_on import NoteOn
 import time
 import random
+import usb_hid
+from adafruit_hid.keycode import Keycode
 
 keypico = PMK(Hardware())
 keys = keypico.keys
@@ -66,6 +68,7 @@ for key in keys:
         key.set_led(*green)
         
         if key.number == 0:
+            key.set_led(*red)
             print("   ")
             current_time = time.localtime()
             gmt_plus_8_time = time.mktime(current_time) + 8 * 3600
