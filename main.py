@@ -149,14 +149,14 @@ for key in keys:
                 print("Your Blood Pressure is ",status)
             elif sys > 120 and dia < 80:
                 if sys < 129:
-                    status = Elevated
+                    status = "Elevated"
                     print("Your Blood Pressure is ",status)
             elif sys > 130:
                 if sys < 139:
-                    status = stg1
+                    status = "stg1"
                     print("Sorry , you have hypertension stage 1")
             elif sys > 140:
-                status = stg2
+                status = "stg2"
                 print("Sorry , you have hypertension stage 3")
             elif sys > 180:
                 print("DANGER")
