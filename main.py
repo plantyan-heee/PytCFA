@@ -88,6 +88,22 @@ for key in keys:
                     hr1 = random.randint(-5,5)
                     hr = hr + hr1
                     print("Heart rate:", hr)
+                    
+        if key.number == 15:
+            user = 1
+            if button_pressed == True:
+                if user == 1:
+                    user = user + 1
+                    print("User switched to user 2")
+                    print("   ")
+                    weight1 = float(input("Weight for User 1 in kg: "))
+                    height1 = float(input("Height for User 1 in m: "))
+                if user == 2:
+                    user = user - 1
+                    print("User switched to user 1")
+                    print("   ")
+                    weight2 = float(input("Weight for User 2 in kg: "))
+                    height2 = float(input("Height for User 2 in m: "))
 
 while True:
     keypico.update()
