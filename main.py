@@ -12,6 +12,12 @@ from adafruit_hid.keycode import Keycode
 keypico = PMK(Hardware())
 keys = keypico.keys
 
+weight1 = float(input("Weight for User 1 in kg: "))
+height1 = float(input("Height for User 1 in m: "))
+weight2 = float(input("Weight for User 2 in kg: "))
+height2 = float(input("Height for User 2 in m: "))
+user = 1
+
 button_pressed = False
 
 midi = adafruit_midi.MIDI(midi_out=usb_midi.ports[1], 
@@ -88,22 +94,75 @@ for key in keys:
                     hr1 = random.randint(-5,5)
                     hr = hr + hr1
                     print("Heart rate:", hr)
-                    
+
         if key.number == 15:
-            user = 1
             if button_pressed == True:
                 if user == 1:
                     user = user + 1
-                    print("User switched to user 2")
-                    print("   ")
-                    weight1 = float(input("Weight for User 1 in kg: "))
-                    height1 = float(input("Height for User 1 in m: "))
-                if user == 2:
+                    print("User switched to user ",user)
+                else:
                     user = user - 1
-                    print("User switched to user 1")
-                    print("   ")
-                    weight2 = float(input("Weight for User 2 in kg: "))
-                    height2 = float(input("Height for User 2 in m: "))
-
+                    print("User switched to user ",user)
+    
+        if key.number == 1:
+            if button_pressed == True:
+                if user == 1:
+                    print("Please check the information below")
+                    print("Height :",height1)
+                    print("Weight :",weight1)
+                    ans = input("Y/N : ")
+                    if ans == "Y":
+                        BMI = weight1 / (height1 ** 2)
+                        print("BMI : ",BMI)
+                        if BMI <= 18.4:
+                            Status = "Underweight"
+                        elif BMI <= 24.9:
+                            Status = "Normal"
+                        elif BMI <= 39.9:
+                            Status = "Overweight"
+                        else:
+                            Status = "Obese"
+                        print("Your BMI is", BMI,"Which indicates that you're ", Status)
+                else:
+                    print("Please check the information below")
+                    print("Height :",height2)
+                    print("Weight :",weight2)
+                    ans = input("Y/N : ")
+                    if ans == "Y":
+                        BMI = weight2 / (height2 ** 2)
+                        print("BMI : ",BMI)
+                        if BMI <= 18.4:
+                            Status = "Underweight"
+                        elif BMI <= 24.9:
+                            Status = "Normal"
+                        elif BMI <= 39.9:
+                            Status = "Overweight"
+                        else:
+                            Status = "Obese"
+                        print("Your BMI is", BMI,"Which indicates that you're ", Status)
+        
+        if key.number == 2:
+            sys = random.randint(100 , 200)
+            dia = random.randint(60 , 140)
+            if sys < 120 and dia < 80:
+                status = Normal
+                print("Your Blood Pressure is ",status)
+            elif sys > 120 and dia < 80:
+                if sys < 129:
+                    status = Elevated
+                    print("Your Blood Pressure is ",status)
+            elif sys > 130:
+                if sys < 139:
+                    status = stg1
+                    print("Sorry , you have hypertension stage 1")
+            elif sys > 140:
+                status = stg2
+                print("Sorry , you have hypertension stage 3")
+            elif sys > 180:
+                print("DANGER")
+                print("You have Hypertensive Crisis")
+                print("Consult your doctor inneduately")
+            else:
+                print("System Error")
 while True:
     keypico.update()
