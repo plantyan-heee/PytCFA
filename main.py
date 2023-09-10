@@ -145,7 +145,7 @@ for key in keys:
             sys = random.randint(100 , 200)
             dia = random.randint(60 , 140)
             if sys < 120 and dia < 80:
-                status = Normal
+                status = "Normal"
                 print("Your Blood Pressure is ",status)
                 for i in range (10):
                     key.set_led(*blue)
