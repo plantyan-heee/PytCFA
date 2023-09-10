@@ -5,6 +5,7 @@ import adafruit_midi
 from adafruit_midi.note_off import NoteOff
 from adafruit_midi.note_on import NoteOn
 import time
+import random
 
 keypico = PMK(Hardware())
 keys = keypico.keys
@@ -43,14 +44,15 @@ velocity = 125
 for key in keys:
     @keypico.on_press(key)
     def press_handler(key):
-        print("Key {} pressed with colour blue".format(key.number))
+        # print("Key {} pressed with colour blue".format(key.number))
         key.set_led(*blue)
         note = start_note + key.number
         midi.send(NoteOn(note, velocity))
 
+
     @keypico.on_release(key)
     def release_handler(key):
-        print("Key {} released with colour snow".format(key.number))
+        # print("Key {} released with colour snow".format(key.number))
         if key.rgb == [255, 0, 0]:
             key.set_led(*green)
         else:
@@ -60,8 +62,22 @@ for key in keys:
 
     @keypico.on_hold(key)
     def hold_handler(key):
-        print("Key {} held with colour green".format(key.number))
+        # print("Key {} held with colour green".format(key.number))
         key.set_led(*green)
+        
+        if key.number == 0:
+            print("   ")
+            current_time = time.localtime()
+            gmt_plus_8_time = time.mktime(current_time) + 8 * 3600
+            gmt_plus_8_struct_time = time.localtime(gmt_plus_8_time)
+            time_str = "{:02d}:{:02d}:{:02d}".format(gmt_plus_8_struct_time.tm_hour, gmt_plus_8_struct_time.tm_min, gmt_plus_8_struct_time.tm_sec)
+            hr = random.randint(50,120)
+            print(time_str)
+            for i in range (5):
+                time.sleep(0.5)
+                hr1 = random.randint(-5,5)
+                hr = hr + hr1
+                print("Heart rate:", hr)
 
 while True:
     keypico.update()
