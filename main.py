@@ -147,22 +147,73 @@ for key in keys:
             if sys < 120 and dia < 80:
                 status = Normal
                 print("Your Blood Pressure is ",status)
+                for i in range (10):
+                    key.set_led(*blue)
+                    time.sleep(0.1)
+                    key.set_led(*snow)
             elif sys > 120 and dia < 80:
                 if sys < 129:
                     status = "Elevated"
                     print("Your Blood Pressure is ",status)
+                    for i in range (10):
+                        key.set_led(*green)
+                        time.sleep(0.1)
+                        key.set_led(*snow)
             elif sys > 130:
                 if sys < 139:
                     status = "stg1"
                     print("Sorry , you have hypertension stage 1")
+                    for i in range (10):
+                        key.set_led(*cyan)
+                        time.sleep(0.1)
+                        key.set_led(*snow)
             elif sys > 140:
                 status = "stg2"
                 print("Sorry , you have hypertension stage 3")
+                for i in range (10):
+                    key.set_led(*purple)
+                    time.sleep(0.1)
+                    key.set_led(*snow)
             elif sys > 180:
                 print("DANGER")
                 print("You have Hypertensive Crisis")
                 print("Consult your doctor inneduately")
+                for i in range (10):
+                    key.set_led(*red)
+                    time.sleep(0.1)
+                    key.set_led(*snow)
             else:
                 print("System Error")
+                
+        if key.number == 3:
+            Stress = random.randint(15,100)
+            if  Stress <=25:
+                print("Your Stress level is ",Stress, "Which means you are in resting state.")
+                for i in range (10):
+                    key.set_led(*blue)
+                    time.sleep(0.1)
+                    key.set_led(*snow)
+            elif Stress <=50:
+                print("Your Stress level is ",Stress, "Which means you are in low stress state. Start caring about yourself more.")
+                for i in range (10):
+                    key.set_led(*green)
+                    time.sleep(0.1)
+                    key.set_led(*snow)
+            elif Stress <=75:
+                print("Your Stress level is ",Stress, "Which means you are in medium stress state. Please take very good care of yourself")
+                for i in range (10):
+                    key.set_led(*purple)
+                    time.sleep(0.1)
+                    key.set_led(*snow)
+            else:
+                print("Your Stress level is ",Stress, "Which means you are in high stress state. Please seek for proffesional help.")
+                for i in range (10):
+                    key.set_led(*red)
+                    time.sleep(0.1)
+                    key.set_led(*snow)
+                
+        if key.number == 4:
+            print("*Antibiotic Resistance*: ")
+            print("Overuse and misuse of antibiotics have led to the development of antibiotic-resistant bacteria. This is a serious global health concern, as it limits our ability to treat bacterial infections.")
 while True:
-    keypico.update()
+    keypico.update() 
