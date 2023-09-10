@@ -12,6 +12,8 @@ from adafruit_hid.keycode import Keycode
 keypico = PMK(Hardware())
 keys = keypico.keys
 
+button_pressed = False
+
 midi = adafruit_midi.MIDI(midi_out=usb_midi.ports[1], 
                           out_channel=0)
 
@@ -48,6 +50,7 @@ for key in keys:
     def press_handler(key):
         # print("Key {} pressed with colour blue".format(key.number))
         key.set_led(*blue)
+        button_pressed = False
         note = start_note + key.number
         midi.send(NoteOn(note, velocity))
 
@@ -57,8 +60,10 @@ for key in keys:
         # print("Key {} released with colour snow".format(key.number))
         if key.rgb == [255, 0, 0]:
             key.set_led(*green)
+            button_pressed = False
         else:
             key.set_led(*snow)
+            button_pressed = False
         note = start_note + key.number
         midi.send(NoteOff(note, 0))
 
@@ -66,21 +71,23 @@ for key in keys:
     def hold_handler(key):
         # print("Key {} held with colour green".format(key.number))
         key.set_led(*green)
+        button_pressed = True
         
         if key.number == 0:
-            key.set_led(*red)
-            print("   ")
-            current_time = time.localtime()
-            gmt_plus_8_time = time.mktime(current_time) + 8 * 3600
-            gmt_plus_8_struct_time = time.localtime(gmt_plus_8_time)
-            time_str = "{:02d}:{:02d}:{:02d}".format(gmt_plus_8_struct_time.tm_hour, gmt_plus_8_struct_time.tm_min, gmt_plus_8_struct_time.tm_sec)
-            hr = random.randint(50,120)
-            print(time_str)
-            for i in range (5):
-                time.sleep(0.5)
-                hr1 = random.randint(-5,5)
-                hr = hr + hr1
-                print("Heart rate:", hr)
+            if button_pressed == True:
+                key.set_led(*red)
+                print("   ")
+                current_time = time.localtime()
+                gmt_plus_8_time = time.mktime(current_time) + 8 * 3600
+                gmt_plus_8_struct_time = time.localtime(gmt_plus_8_time)
+                time_str = "{:02d}:{:02d}:{:02d}".format(gmt_plus_8_struct_time.tm_hour, gmt_plus_8_struct_time.tm_min, gmt_plus_8_struct_time.tm_sec)
+                hr = random.randint(50,120)
+                print(time_str)
+                for i in range (10):
+                    time.sleep(0.5)
+                    hr1 = random.randint(-5,5)
+                    hr = hr + hr1
+                    print("Heart rate:", hr)
 
 while True:
     keypico.update()
